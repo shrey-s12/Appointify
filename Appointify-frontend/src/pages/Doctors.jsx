@@ -5,6 +5,7 @@ import { AppContext } from '../context/AppContext';
 const Doctors = () => {
 
   const { speciality } = useParams();
+  console.log(speciality)
   const [filterDoc, setFilterDoc] = useState([]);
   const navigate = useNavigate();
 
