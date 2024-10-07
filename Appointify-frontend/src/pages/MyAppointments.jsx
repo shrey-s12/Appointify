@@ -1,13 +1,45 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../context/AppContext';
+import axios from 'axios';
 
 const MyAppointments = () => {
-  const { doctors } = useContext(AppContext);
+  const { backendUrl, token } = useContext(AppContext);
+
+  const [appointments, setAppointments] = useState([]);
+  const months = ["","Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  const slotDateFormate = (slotDate) => {
+    const dateArray = slotDate.split("_");
+    return dateArray[0] + " " + months[Number(dateArray[1])] + ", " + dateArray[2];
+  };
+
+  const getUserAppointments = async () => {
+
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/user/appointments`, { headers: { token } });
+      if (data.success) {
+        setAppointments(data.appointments.reverse());
+        console.log(data.appointments);
+      } else {
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getUserAppointments();
+    }
+  }, [token]);
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 bg-gray-50 shadow-md rounded-lg mt-10">
       <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 text-gray-800">My Appointments</h2>
-      {doctors.slice(0, 3).map((item, index) => (
+      {appointments.map((item, index) => (
         <div
           key={index}
           className="flex flex-col lg:flex-row justify-between items-start lg:items-center bg-white p-4 sm:p-6 mb-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
@@ -15,7 +47,7 @@ const MyAppointments = () => {
           {/* Doctor Image */}
           <div className="w-full lg:w-1/4 mb-4 lg:mb-0">
             <img
-              src={item.image}
+              src={item.docData.image}
               alt="Doctor"
               className="w-full h-96 sm:h-96 lg:h-56 object-cover rounded-lg shadow-md border border-gray-300"
             />
@@ -23,13 +55,13 @@ const MyAppointments = () => {
 
           {/* Doctor Information */}
           <div className="w-full lg:w-2/4 mb-4 lg:mb-0 px-2 sm:px-4">
-            <p className="text-lg lg:text-xl font-semibold text-gray-800">{item.name}</p>
-            <p className="text-gray-600 mb-1 sm:mb-2">{item.speciality}</p>
+            <p className="text-lg lg:text-xl font-semibold text-gray-800">{item.docData.name}</p>
+            <p className="text-gray-600 mb-1 sm:mb-2">{item.docData.speciality}</p>
             <p className="text-gray-500">Address:</p>
-            <p className="text-gray-800">{item.address.line1}</p>
-            <p className="text-gray-800 mb-2 sm:mb-4">{item.address.line2}</p>
+            <p className="text-gray-800">{item.docData.address.line1}</p>
+            <p className="text-gray-800 mb-2 sm:mb-4">{item.docData.address.line2}</p>
             <p className="text-gray-800">
-              <span className="font-semibold">Date & Time:</span> 25, July, 2024 | 8:30 PM
+              <span className="font-semibold">Date & Time:</span> {slotDateFormate(item.slotDate)} | {item.slotTime}
             </p>
           </div>
 
