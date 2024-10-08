@@ -85,17 +85,21 @@ const MyAppointments = () => {
 
           {/* Buttons */}
           <div className="w-full lg:w-1/4 flex flex-col space-y-2 lg:space-y-0 lg:space-x-2 lg:flex-row">
-            {!item.cancelled &&
+            {!item.cancelled && !item.isCompleted &&
               <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out shadow-md">
                 Pay Online
               </button>}
-            {!item.cancelled &&
+            {!item.cancelled && !item.isCompleted &&
               <button onClick={() => cancelAppointment(item._id)} className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300 ease-in-out shadow-md">
                 Cancel Appointment
               </button>}
-            {item.cancelled &&
+            {item.cancelled && !item.isCompleted &&
               <button className="w-full bg-gray-300 text-gray-600 py-2 px-4 rounded-lg cursor-not-allowed shadow-md">
                 Appointment Cancelled
+              </button>}
+            {item.isCompleted &&
+              <button className="w-full bg-green-600 text-white py-2 px-4 rounded-lg cursor-not-allowed shadow-md">
+                Appointment Completed
               </button>}
           </div>
         </div>
