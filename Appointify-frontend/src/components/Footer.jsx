@@ -7,8 +7,21 @@ const Footer = () => {
             <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm'>
                 {/* ---------- Left Side ---------- */}
                 <div>
-                    <img className='mb-5 w-40' src={assets.logo} alt="" />
-                    <p className='w-full md:w-2/3 text-gray-600 leading-6'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum modi ullam repudiandae deleniti quasi ab, nemo quod ducimus expedita eveniet!</p>
+                    <div className='flex items-center gap-1'>
+                        <img
+                            onClick={() => navigate("/")}
+                            className='w-14 cursor-pointer'
+                            src={assets.logo}
+                            alt="Appointify Logo"
+                        />
+                        <h1
+                            onClick={() => navigate("/")}
+                            className='text-2xl font-bold'
+                        >
+                            Appointify
+                        </h1>
+                    </div>
+                    <p className='w-full md:w-2/3 text-gray-600 leading-6'>"Your time is precious, and so is your health. Let us take care of both."</p>
                 </div>
 
                 {/* ---------- Center Side ---------- */}

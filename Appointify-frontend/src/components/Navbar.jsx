@@ -18,8 +18,21 @@ const Navbar = () => {
     }
 
     return (
-        <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400'>
-            <img onClick={() => navigate("/")} className='w-44 cursor-pointer' src={assets.logo} alt="Logo" />
+        <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400 '>
+            <div className='flex items-center gap-1'>
+                <img
+                    onClick={() => navigate("/")}
+                    className='w-14 cursor-pointer'
+                    src={assets.logo}
+                    alt="Appointify Logo"
+                />
+                <h1
+                    onClick={() => navigate("/")}
+                    className='text-2xl font-bold cursor-pointer'
+                >
+                    Appointify
+                </h1>
+            </div>
             <ul className='hidden md:flex items-start gap-5 font-medium'>
                 <NavLink to="/">
                     <li className='py-1'>HOME</li>
